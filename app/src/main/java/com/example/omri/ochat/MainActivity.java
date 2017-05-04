@@ -38,9 +38,10 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             String nickName;
             if(!(nickName = Nick.getText().toString()).equals("")) {
-            Intent GoToChat = new Intent(MainActivity.this,ChatActivity.class);
-            GoToChat.putExtra("nickname", nickName);
-            startActivity(GoToChat);
+                Nick.setHint("This field is mandatory");
+                Intent GoToChat = new Intent(MainActivity.this,ChatActivity.class);
+                GoToChat.putExtra("nickname", nickName);
+                startActivity(GoToChat);
             }
             else{
                 Log.v("Debug","Nickname missing");
