@@ -21,7 +21,8 @@ public class ChatActivity extends AppCompatActivity {
     private Button Sendbutton;
     private TextView ChatTextview;
     private String nickname;
-    //ok
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
