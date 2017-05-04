@@ -20,6 +20,7 @@ public class ChatActivity extends AppCompatActivity {
     private EditText InputMSG;
     private Button Sendbutton;
     private TextView ChatTextview;
+    private String nickname;
     //ok
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class ChatActivity extends AppCompatActivity {
         ChatTextview.setMovementMethod(new ScrollingMovementMethod());
         InputMSG = (EditText)findViewById(R.id.InputText);
         Sendbutton = (Button)findViewById(R.id.SendButton);
+        nickname = getIntent().getExtras().getString("nickname" , "Unknown");
         ConnectToServer.start();
     }
 
@@ -69,7 +71,7 @@ public class ChatActivity extends AppCompatActivity {
                         Thread Sending = new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                String nickname = getIntent().getExtras().getString("nickname");
+
                                 final String Send = nickname + ": " + InputMSG.getText().toString();
                                 try {
                                     out.writeUTF(Send);
