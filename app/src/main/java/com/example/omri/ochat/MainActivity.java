@@ -2,8 +2,11 @@ package com.example.omri.ochat;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,9 +36,17 @@ public class MainActivity extends AppCompatActivity {
     View.OnClickListener Join = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            String nickName;
+            if(!(nickName = Nick.getText().toString()).equals("")) {
             Intent GoToChat = new Intent(MainActivity.this,ChatActivity.class);
-            GoToChat.putExtra("nickname",Nick.getText().toString());
+            GoToChat.putExtra("nickname", nickName);
             startActivity(GoToChat);
+            }
+            else{
+                Log.v("Debug","Nickname missing");
+                Nick.setHint("This field is mandatory");
+                Nick.setHintTextColor(Color.RED);
+            }
         }
     };
 
