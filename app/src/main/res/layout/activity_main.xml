@@ -71,4 +71,6 @@
         app:layout_constraintRight_toLeftOf="@+id/NickNameInput"
         app:layout_constraintTop_toBottomOf="@+id/TitleImage" />
 
+
+
 </android.support.constraint.ConstraintLayout>

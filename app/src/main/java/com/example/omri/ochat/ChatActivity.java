@@ -1,6 +1,7 @@
 package com.example.omri.ochat;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -20,8 +21,7 @@ import java.sql.Struct;
 
 public class ChatActivity extends Activity implements Input.OnFragmentInteractionListener{
 
-    private EditText InputMSG;
-    private Button Sendbutton;
+
     private TextView ChatTextview;
     private String nickname;
 
@@ -32,8 +32,6 @@ public class ChatActivity extends Activity implements Input.OnFragmentInteractio
         setContentView(R.layout.activity_chat);
         ChatTextview = (TextView)findViewById(R.id.ChatScreen);
         ChatTextview.setMovementMethod(new ScrollingMovementMethod());
-        InputMSG = (EditText)findViewById(R.id.InputText);
-        Sendbutton = (Button)findViewById(R.id.SendButton);
         nickname = getIntent().getExtras().getString("nickname" , "Unknown");
         ConnectToServer.start();
     }
