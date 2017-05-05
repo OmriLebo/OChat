@@ -1,5 +1,6 @@
 package com.example.omri.ochat;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -13,10 +14,11 @@ import android.widget.TextView;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.sql.Struct;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends Activity implements Input.OnFragmentInteractionListener{
 
     private EditText InputMSG;
     private Button Sendbutton;
@@ -45,7 +47,6 @@ public class ChatActivity extends AppCompatActivity {
             try
             {
                 final Socket s = new Socket("roomserver.dynu.net", 31021);
-                final DataOutputStream out = new DataOutputStream(s.getOutputStream());
                 Thread Recieving = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -58,6 +59,11 @@ public class ChatActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         ChatTextview.setText(Recv);
+                                        try {
+                                            s.close();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
                                 });
                             }
@@ -68,35 +74,6 @@ public class ChatActivity extends AppCompatActivity {
                     }
                 });
 
-                View.OnClickListener SendListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        Thread Sending = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                final String Send = " " + nickname + ": " + InputMSG.getText().toString();
-                                try {
-                                    out.writeUTF(Send);
-
-                                }
-                                catch (final Exception e){
-                                    ChatTextview.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            ChatTextview.setText(e.toString());
-                                        }
-
-                                    });
-                                }
-                            }
-                        });
-                        Sending.start();
-                        InputMSG.setText("");
-                    }
-                };
-                Sendbutton.setOnClickListener(SendListener);
                 Recieving.start();
             }
             catch (Exception e)
@@ -107,4 +84,31 @@ public class ChatActivity extends AppCompatActivity {
     };
 
 
+    @Override
+    public void onFragmentInteraction(final String text) {
+        Thread Sending = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                final String Send = " " + nickname + ": " + text;
+                try {
+                    final Socket s = new Socket("roomserver.dynu.net", 31021);
+                    final DataOutputStream out = new DataOutputStream(s.getOutputStream());
+
+                    out.writeUTF(Send);
+
+                }
+                catch (final Exception e){
+                    ChatTextview.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ChatTextview.setText(e.toString());
+                        }
+
+                    });
+                }
+            }
+        });
+        Sending.start();
+    }
 }
