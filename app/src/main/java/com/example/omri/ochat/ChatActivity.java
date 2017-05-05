@@ -73,7 +73,7 @@ public class ChatActivity extends AppCompatActivity {
                             @Override
                             public void run() {
 
-                                final String Send = nickname + ": " + InputMSG.getText().toString();
+                                final String Send = " " + nickname + ": " + InputMSG.getText().toString();
                                 try {
                                     out.writeUTF(Send);
 
