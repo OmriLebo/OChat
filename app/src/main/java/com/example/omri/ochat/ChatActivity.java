@@ -1,5 +1,7 @@
 package com.example.omri.ochat;
 
+import android.content.Intent;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
+import java.sql.Struct;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -66,7 +69,8 @@ public class ChatActivity extends AppCompatActivity {
                         Thread Sending = new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                final String Send = InputMSG.getText().toString();
+                                String nickname = getIntent().getExtras().getString("nickname");
+                                final String Send = nickname + ": " + InputMSG.getText().toString();
                                 try {
                                     out.writeUTF(Send);
 
