@@ -1,6 +1,7 @@
 package com.example.omri.ochat;
 
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +15,9 @@ import android.widget.TextView;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
-import java.sql.Struct;
+import java.util.Calendar;
+import java.util.Date;
+
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -22,6 +25,7 @@ public class ChatActivity extends AppCompatActivity {
     private Button Sendbutton;
     private TextView ChatTextview;
     private String nickname;
+    private Calendar cal = Calendar.getInstance();
 
 
     @Override
@@ -34,6 +38,7 @@ public class ChatActivity extends AppCompatActivity {
         Sendbutton = (Button)findViewById(R.id.SendButton);
         nickname = getIntent().getExtras().getString("nickname" , "Unknown");
         ConnectToServer.start();
+
     }
 
 
@@ -75,8 +80,10 @@ public class ChatActivity extends AppCompatActivity {
                         Thread Sending = new Thread(new Runnable() {
                             @Override
                             public void run() {
-
-                                final String Send = " " + nickname + ": " + InputMSG.getText().toString();
+                                int hours = cal.get(Calendar.HOUR_OF_DAY);
+                                int minutes = cal.get(Calendar.MINUTE);
+                                String totaltime = hours + ":" + minutes;
+                                final String Send = " " + nickname + ": " + InputMSG.getText().toString() + "  [" + totaltime + "]";
                                 try {
                                     out.writeUTF(Send);
 
