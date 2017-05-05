@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.sql.Struct;
 
-public class ChatActivity extends Activity implements Input.OnFragmentInteractionListener{
+public class ChatActivity extends FragmentActivity implements Input.OnFragmentInteractionListener{
 
 
     private TextView ChatTextview;
@@ -59,11 +60,6 @@ public class ChatActivity extends Activity implements Input.OnFragmentInteractio
                                     @Override
                                     public void run() {
                                         ChatTextview.setText(Recv);
-                                        try {
-                                            s.close();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
                                     }
                                 });
                             }
