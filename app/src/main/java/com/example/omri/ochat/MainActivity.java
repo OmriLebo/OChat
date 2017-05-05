@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
     private Button JoinChatbutton;
     private ImageButton Settingsbutton;
 
-
+    //Git Commennt
 
 
     @Override
