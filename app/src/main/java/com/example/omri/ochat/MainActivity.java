@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             String nickName;
+            Nick.setHint("");
             if(!(nickName = Nick.getText().toString()).equals("")) {
-                Nick.setHint("This field is mandatory");
                 Intent GoToChat = new Intent(MainActivity.this,ChatActivity.class);
                 GoToChat.putExtra("nickname", nickName);
                 startActivity(GoToChat);
