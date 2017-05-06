@@ -83,7 +83,7 @@ public class ChatActivity extends AppCompatActivity {
                                 int hours = cal.get(Calendar.HOUR_OF_DAY);
                                 int minutes = cal.get(Calendar.MINUTE);
                                 String totaltime = hours + ":" + minutes;
-                                final String Send = " " + nickname + ": " + InputMSG.getText().toString() + "  [" + totaltime + "]";
+                                final String Send = " ["+ totaltime +  "] " + nickname +  ": " + InputMSG.getText().toString();
                                 try {
                                     out.writeUTF(Send);
 
