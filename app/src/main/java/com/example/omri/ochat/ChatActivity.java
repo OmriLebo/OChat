@@ -27,15 +27,21 @@ public class ChatActivity extends FragmentActivity implements Input.OnFragmentIn
 
     private TextView ChatTextview;
     private String nickname;
+    private Input Frag;
 
 
-    @Override
+
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         ChatTextview = (TextView)findViewById(R.id.ChatScreen);
         ChatTextview.setMovementMethod(new ScrollingMovementMethod());
         nickname = getIntent().getExtras().getString("nickname" , "Unknown");
+        Input Frag = (Input) getSupportFragmentManager().findFragmentById(R.id.input2);
+        if (Frag != null) {
+            Frag.setButtonText("Send>>");
+        }
         ConnectToServer.start();
     }
 
@@ -53,7 +59,7 @@ public class ChatActivity extends FragmentActivity implements Input.OnFragmentIn
                     public void run() {
                         try {
                             final DataInputStream in = new DataInputStream(s.getInputStream());
-                            while(true)
+                            while(s.isConnected())
                             {
                                 final String Recv = in.readUTF();
                                 ChatTextview.post(new Runnable() {
@@ -63,13 +69,14 @@ public class ChatActivity extends FragmentActivity implements Input.OnFragmentIn
                                     }
                                 });
                             }
+                            in.close();
+                            s.close();
                         }
                         catch (Exception  e){
                             Log.v("debug" , "Something bad at connect thread ");
                         }
                     }
                 });
-
                 Recieving.start();
             }
             catch (Exception e)

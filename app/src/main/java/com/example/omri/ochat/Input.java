@@ -118,4 +118,7 @@ public class Input extends Fragment {
         void onFragmentInteraction(String text);
 
     }
+    public void setButtonText(String text){
+        button.setText(text);
+    }
 }
