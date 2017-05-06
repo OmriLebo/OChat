@@ -38,6 +38,7 @@ public class ChatActivity extends AppCompatActivity implements InputFragment.OnI
         ChatTextview.setMovementMethod(new ScrollingMovementMethod());
         nickname = getIntent().getExtras().getString("nickname" , "Unknown");
         Recieving.start();
+        ChatTextview.setMovementMethod(new ScrollingMovementMethod());
         inputFragment.setFragTexts("<<Send","Your message...");
     }
 
