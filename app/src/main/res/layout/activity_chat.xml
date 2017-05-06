@@ -12,41 +12,24 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"
         android:textColor="#000000"
         android:textSize="18sp"
         android:scrollbars="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/InputText"
+        app:layout_constraintBottom_toTopOf="@+id/InputFrag2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
-    <EditText
-        android:id="@+id/InputText"
-        android:layout_width="0dp"
+    <fragment
+        android:id="@+id/InputFrag2"
+        android:layout_width="368dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:singleLine="true"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
+        android:name="layout.InputFragment"
+        tools:layout="@layout/fragment_input"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        android:hint="Your Message..."
-        app:layout_constraintRight_toLeftOf="@+id/SendButton" />
+        android:layout_marginStart="11dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <Button
-        android:id="@+id/SendButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="21dp"
-        android:text="Send"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBaseline_toBaselineOf="@+id/InputText" />
 </android.support.constraint.ConstraintLayout>
