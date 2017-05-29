@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private Button JoinChatbutton;
     private ImageButton Settingsbutton;
     private EditText Nick;
+    private EditText Room;
     //Git Commennt
 
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Nick = (EditText)findViewById(R.id.NickNameInput);
+        Room =  (EditText)findViewById(R.id.RoomNameInput);
         JoinChatbutton = (Button)findViewById(R.id.JoinChatButton);
         Settingsbutton = (ImageButton) findViewById(R.id.SettingsButton);
         JoinChatbutton.setOnClickListener(Join);
@@ -41,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
             if(!(nickName = Nick.getText().toString()).equals("")) {
                 Intent GoToChat = new Intent(MainActivity.this,ChatActivity.class);
                 GoToChat.putExtra("nickname", nickName);
+                String RoomName;
+                if (!(RoomName = Room.getText().toString()).equals(""))
+                    GoToChat.putExtra("chatRoomName", RoomName);
+
                 startActivity(GoToChat);
             }
             else{

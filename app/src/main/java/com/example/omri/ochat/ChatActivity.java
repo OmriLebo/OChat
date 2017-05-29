@@ -27,6 +27,7 @@ public class ChatActivity extends AppCompatActivity implements InputFragment.OnI
     private String nickname;
     private Calendar cal = Calendar.getInstance();
     private InputFragment inputFragment;
+    private String chatRoomName;
 
 
     @Override
@@ -37,9 +38,19 @@ public class ChatActivity extends AppCompatActivity implements InputFragment.OnI
         inputFragment =  (InputFragment) getSupportFragmentManager().findFragmentById(R.id.InputFrag2);
         ChatTextview.setMovementMethod(new ScrollingMovementMethod());
         nickname = getIntent().getExtras().getString("nickname" , "Unknown");
+        chatRoomName = getIntent().getExtras().getString("chatRoomName" , "General");
         Recieving.start();
         ChatTextview.setMovementMethod(new ScrollingMovementMethod());
-        inputFragment.setFragTexts("<<Send","Your message...");
+        inputFragment.setFragTexts("<<Send","Your" +
+                " message...");
+        String ENTER_MESSAGE = nickname + "ENTER_CODE" + chatRoomName;// switch to enum
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        String EXIT_MESSAGE = nickname + "EXIT_CODE";// switch to enum
+        new SendMessage().execute(EXIT_MESSAGE);
     }
 
 
@@ -77,6 +88,8 @@ public class ChatActivity extends AppCompatActivity implements InputFragment.OnI
         new SendMessage().execute(text);
     }
 
+    //============================================================================================
+
     private class SendMessage extends AsyncTask<String , Void , Void>{
 
         @Override
@@ -96,7 +109,7 @@ public class ChatActivity extends AppCompatActivity implements InputFragment.OnI
                 }
             }catch (IOException e){
                 Log.v("DEBUG","No Connection");
-                Toast.makeText(getApplicationContext(), "Turn ON Intenet Dumb Dumb" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Turn ON Internet Dumb Dumb" , Toast.LENGTH_SHORT).show();
             }
             return null;
         }
