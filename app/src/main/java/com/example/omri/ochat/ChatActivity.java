@@ -1,5 +1,6 @@
 package com.example.omri.ochat;
 
+import android.net.wifi.WifiEnterpriseConfig;
 import android.os.AsyncTask;
 
 import android.support.v7.app.AppCompatActivity;
@@ -53,16 +54,17 @@ public class ChatActivity extends AppCompatActivity implements InputFragment.OnI
         new SendMessage().execute(EXIT_MESSAGE);
     }
 
-
     Thread Recieving = new Thread(new Runnable() {
         @Override
         public void run() {
             try {
-                final Socket s = new Socket("roomserver.dynu.net", 31021);
+                final Socket s = new Socket("gate.romcarmel.com", 8822);//("roomserver.dynu.net", 31021);
                 final DataInputStream in = new DataInputStream(s.getInputStream());
                 while(s.isConnected())
                 {
+                    Log.v("debug" , "waiting for string");
                     final String Recv = in.readUTF();
+                    Log.v("debug" , Recv);
                     ChatTextview.post(new Runnable() {
                         @Override
                         public void run() {
@@ -95,12 +97,12 @@ public class ChatActivity extends AppCompatActivity implements InputFragment.OnI
         @Override
         protected Void doInBackground(String... InputMSG) {
             try {
-                final Socket s = new Socket("roomserver.dynu.net", 31021);
+                final Socket s = new Socket("gate.romcarmel.com", 8822);//("roomserver.dynu.net", 31021);
                 final DataOutputStream out = new DataOutputStream(s.getOutputStream());
                 int hours = cal.get(Calendar.HOUR_OF_DAY);
                 int minutes = cal.get(Calendar.MINUTE);
                 String totaltime = hours + ":" + minutes;
-                final String Send = " [" + totaltime + "] " + nickname + ": " + InputMSG[0];
+                final String Send = InputMSG[0];//" [" + totaltime + "] " + nickname + ": " + InputMSG[0];
                 try {
                     out.writeUTF(Send);
 
@@ -119,6 +121,11 @@ public class ChatActivity extends AppCompatActivity implements InputFragment.OnI
             super.onPostExecute(aVoid);
             Toast.makeText(getApplicationContext(), "Sent..." , Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public enum Code{
+        Exit , ENTER
+
     }
 }
 
