@@ -11,9 +11,11 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Calendar;
 
@@ -29,6 +31,7 @@ public class ChatActivity extends AppCompatActivity implements InputFragment.OnI
     private Calendar cal = Calendar.getInstance();
     private InputFragment inputFragment;
     private String chatRoomName;
+    public static Socket s = null;
 
 
     @Override
@@ -45,6 +48,7 @@ public class ChatActivity extends AppCompatActivity implements InputFragment.OnI
         inputFragment.setFragTexts("<<Send","Your" +
                 " message...");
         String ENTER_MESSAGE = nickname + "ENTER_CODE" + chatRoomName;// switch to enum
+
     }
 
     @Override
@@ -58,17 +62,19 @@ public class ChatActivity extends AppCompatActivity implements InputFragment.OnI
         @Override
         public void run() {
             try {
-                final Socket s = new Socket("gate.romcarmel.com", 8822);//("roomserver.dynu.net", 31021);
+                s = new Socket("192.168.1.92", 8822);//("roomserver.dynu.net", 31021);
                 final DataInputStream in = new DataInputStream(s.getInputStream());
                 while(s.isConnected())
                 {
                     Log.v("debug" , "waiting for string");
                     final String Recv = in.readUTF();
-                    Log.v("debug" , Recv);
+                    Log.v("DEBUGG" , Recv);
                     ChatTextview.post(new Runnable() {
                         @Override
                         public void run() {
-                            ChatTextview.setText(Recv);
+                            String chat = ChatTextview.getText().toString();
+                            chat += Recv;
+                            ChatTextview.setText(chat);
                         }
                     });
                 }
@@ -97,20 +103,21 @@ public class ChatActivity extends AppCompatActivity implements InputFragment.OnI
         @Override
         protected Void doInBackground(String... InputMSG) {
             try {
-                final Socket s = new Socket("gate.romcarmel.com", 8822);//("roomserver.dynu.net", 31021);
-                final DataOutputStream out = new DataOutputStream(s.getOutputStream());
+                //final Socket s = new Socket("gate.romcarmel.com", 8822);//("roomserver.dynu.net", 31021);
+                BufferedWriter out = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
                 int hours = cal.get(Calendar.HOUR_OF_DAY);
                 int minutes = cal.get(Calendar.MINUTE);
                 String totaltime = hours + ":" + minutes;
-                final String Send = InputMSG[0];//" [" + totaltime + "] " + nickname + ": " + InputMSG[0];
+                final String Send = " [" + totaltime + "] " + nickname + ": " + InputMSG[0]; //InputMSG[0]; //
                 try {
-                    out.writeUTF(Send);
+                    out.write(Send);
+                    out.flush();
 
                 } catch (final Exception e) {
-                    Log.v("DEBUG","OutputStream problem");
+                    Log.v("DEBUGG","OutputStream problem");
                 }
             }catch (IOException e){
-                Log.v("DEBUG","No Connection");
+                Log.v("DEBUGG","No Connection");
                 Toast.makeText(getApplicationContext(), "Turn ON Internet Dumb Dumb" , Toast.LENGTH_SHORT).show();
             }
             return null;
@@ -128,5 +135,3 @@ public class ChatActivity extends AppCompatActivity implements InputFragment.OnI
 
     }
 }
-
-

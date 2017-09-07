@@ -19,7 +19,6 @@ public class InputFragment extends Fragment {
     private Button button;
     private EditText editText;
 
-
     private String buttonText;
     private String editTextHint;
 
